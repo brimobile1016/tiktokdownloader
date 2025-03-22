@@ -9,6 +9,11 @@ app.use(cors());
 app.use(express.json()); // Middleware untuk membaca JSON dari body
 app.use(express.static("public")); // Melayani file statis dari folder public
 
+// Route untuk menampilkan home.html
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__path, "index.html"));
+});
+
 // Endpoint TikTok Downloader (Menggunakan POST)
 app.post("/api/tiktok", async (req, res) => {
     const { url } = req.body; // Mengambil URL dari body, bukan query string
