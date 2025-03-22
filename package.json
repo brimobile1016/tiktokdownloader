@@ -17,7 +17,7 @@
     "nodemon": "^3.0.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": "18.x"
   },
   "keywords": ["tiktok", "downloader", "express", "video", "api"],
   "author": "Saipul Anuar",
