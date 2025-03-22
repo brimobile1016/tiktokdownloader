@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/tiktok.php",
+      "use": "@vercel/php"
+    },
+    {
+      "src": "public/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "api/tiktok.php" },
+    { "src": "/(.*)", "dest": "/public/$1" }
+  ]
+}
