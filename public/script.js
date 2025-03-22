@@ -6,14 +6,20 @@ document.getElementById("download-btn").addEventListener("click", async () => {
     }
 
     document.getElementById("result").innerHTML = "⏳ Sedang mengambil video...";
-    
+
     try {
-        const response = await fetch(`/api/tiktok?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`/api/tiktok`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: url })
+        });
+
         const data = await response.json();
 
         if (data.url) {
             document.getElementById("result").innerHTML = `
                 <p class="text-success">✅ Video ditemukan!</p>
+                <p><strong>Deskripsi:</strong> ${data.caption || "Tidak ada deskripsi."}</p>
                 <video src="${data.url}" controls class="w-100 mb-2"></video>
                 <a href="${data.url}" class="btn btn-success w-100" download>🔗 Unduh Video</a>
             `;
