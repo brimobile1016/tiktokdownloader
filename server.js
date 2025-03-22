@@ -1,22 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const fetch = require("node-fetch");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json()); // Middleware untuk membaca JSON dari body
-app.use(express.static("public")); // Melayani file statis dari folder public
+app.use(express.json());
+// Middleware untuk menjadikan folder public sebagai folder publik di root URL
+app.use(express.static(path.resolve(__dirname, 'public')));
 
-// Halaman utama menampilkan teks "akudisini"
-// app.get("/", (req, res) => {
-//    res.send("akudisini");
-// });
-
-// Endpoint TikTok Downloader (Menggunakan POST)
+// Endpoint TikTok Downloader
 app.post("/api/tiktok", async (req, res) => {
-    const { url } = req.body; // Mengambil URL dari body, bukan query string
+    const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL TikTok wajib diisi!" });
 
     try {
@@ -30,5 +27,9 @@ app.post("/api/tiktok", async (req, res) => {
     }
 });
 
-// Jalankan server
-app.listen(PORT, () => console.log(`🚀 Server berjalan di http://localhost:${PORT}`));
+// **Tambahkan Route Utama**
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+module.exports = app;
