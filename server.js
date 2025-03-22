@@ -3,21 +3,27 @@ const cors = require("cors");
 const fetch = require("node-fetch");
 
 const app = express();
-app.use(cors());
+const PORT = process.env.PORT || 3000;
 
-app.get("/api/tiktok", async (req, res) => {
-    const { url } = req.query;
+app.use(cors());
+app.use(express.json()); // Middleware untuk membaca JSON dari body
+app.use(express.static("public")); // Melayani file statis dari folder public
+
+// Endpoint TikTok Downloader (Menggunakan POST)
+app.post("/api/tiktok", async (req, res) => {
+    const { url } = req.body; // Mengambil URL dari body, bukan query string
     if (!url) return res.status(400).json({ error: "URL TikTok wajib diisi!" });
 
     try {
         const apiUrl = `https://saipulanuar.eu.org/api/api.php/tiktokdl?url=${encodeURIComponent(url)}&apikey=bear`;
         const response = await fetch(apiUrl);
         const data = await response.json();
+
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: "Gagal mengambil data" });
+        res.status(500).json({ error: "Gagal mengambil data dari API eksternal" });
     }
 });
 
-// Export handler untuk Vercel
-module.exports = app;
+// Jalankan server
+app.listen(PORT, () => console.log(`🚀 Server berjalan di http://localhost:${PORT}`));
