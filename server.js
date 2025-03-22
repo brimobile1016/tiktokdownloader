@@ -10,9 +10,9 @@ app.use(express.json()); // Middleware untuk membaca JSON dari body
 app.use(express.static("public")); // Melayani file statis dari folder public
 
 // Halaman utama menampilkan teks "akudisini"
-app.get("/", (req, res) => {
-    res.send("akudisini");
-});
+// app.get("/", (req, res) => {
+//    res.send("akudisini");
+// });
 
 // Endpoint TikTok Downloader (Menggunakan POST)
 app.post("/api/tiktok", async (req, res) => {
