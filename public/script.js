@@ -16,18 +16,22 @@ document.getElementById("download-btn").addEventListener("click", async () => {
 
         const data = await response.json();
 
-        if (data.video) {
+        if (data.status && data.result && Array.isArray(data.result.video)) {
+            const videoUrl = data.result.video[0];
+            const caption = data.result.title_audio || "Tidak ada deskripsi.";
+
             document.getElementById("result").innerHTML = `
                 <p class="text-success">✅ Video ditemukan!</p>
-                <p><strong>Deskripsi:</strong> ${data.caption || "Tidak ada deskripsi."}</p>
-                <video src="${data.video}" controls class="w-100 mb-2"></video>
-                <a href="${data.url}" class="btn btn-success w-100" download onclick="openNewTab(event)">🔗 Unduh Video</a>
+                <p><strong>Deskripsi:</strong> ${caption}</p>
+                <video src="${videoUrl}" controls class="w-100 mb-2"></video>
+                <a href="${videoUrl}" class="btn btn-success w-100" download onclick="openNewTab(event)">🔗 Unduh Video</a>
             `;
         } else {
             document.getElementById("result").innerHTML = `<p class="text-danger">❌ Gagal mendapatkan video!</p>`;
         }
     } catch (error) {
-        document.getElementById("result").innerHTML = `<p class="text-danger">❌ Terjadi kesalahan!</p>`;
+        console.error(error);
+        document.getElementById("result").innerHTML = `<p class="text-danger">❌ Terjadi kesalahan saat mengambil video!</p>`;
     }
 });
 
