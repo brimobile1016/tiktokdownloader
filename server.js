@@ -17,7 +17,7 @@ app.post("/api/tiktok", async (req, res) => {
     if (!url) return res.status(400).json({ error: "URL TikTok wajib diisi!" });
 
     try {
-        const apiUrl = `https://saipulanuar.eu.org/api/api.php/tiktokdl?url=${encodeURIComponent(url)}&apikey=bear`;
+        const apiUrl = `https://api.saipulanuar.eu.org/api/download/ttdl?url={encodeURIComponent(url)}&apikey=bear`;
         const response = await fetch(apiUrl);
         const data = await response.json();
 
